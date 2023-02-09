@@ -84,6 +84,7 @@ class ProductCart extends StatelessWidget {
                   color: MainColors.mainBlue,
                 ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                      const SizedBox(
                       width: 10,
@@ -95,7 +96,7 @@ class ProductCart extends StatelessWidget {
                         color: Colors.white,
                       ),
                       ),
-                      const SizedBox(width: 6,),
+                      
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
@@ -123,12 +124,10 @@ class ProductCart extends StatelessWidget {
 
                         ],
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
+                     
                       const Icon(Icons.chevron_right_rounded,
                       color: Colors.white,
-                      size: 30,
+                      size: 25,
                       
                       ),
                   ],
