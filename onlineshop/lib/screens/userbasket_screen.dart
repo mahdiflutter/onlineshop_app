@@ -14,14 +14,17 @@ class _UserBasketScreenState extends State<UserBasketScreen> {
     return Scaffold(
       backgroundColor: MainColors.mainBackGround,
       body: SafeArea(
-        child: CustomScrollView(
+        child: Stack(
+          alignment: AlignmentDirectional.bottomCenter,
+          children: [
+           CustomScrollView(
           slivers: [
             const SliverToBoxAdapter(
               child: CustomAppbar(),
 
             ),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 44),
+              padding: const EdgeInsets.only(top: 20,bottom: 50),
               sliver: SliverList(
                 
                delegate: SliverChildBuilderDelegate(
@@ -35,11 +38,13 @@ class _UserBasketScreenState extends State<UserBasketScreen> {
                ),
               ),
             ),
-            const SliverToBoxAdapter(
-              child:CompleteButton(),
-            )
+           
           ],
         ),
+        
+        const CompleteButton(),
+          ],
+        )
       ),
     );
   }
@@ -55,12 +60,15 @@ class CompleteButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: 53,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: MainColors.mainGreen,),
-        onPressed: (){},
-        child: const Text('ادامه فرآیند خرید',style: TextStyle(fontSize: 20,),),
-      
+      child: Padding(
+        padding: const EdgeInsets.only(left: 44,right: 44,bottom: 10),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: MainColors.mainGreen,),
+          onPressed: (){},
+          child: const Text('ادامه فرآیند خرید',style: TextStyle(fontSize: 20,),),
+        
+        ),
       ),
     );
   }
@@ -74,7 +82,7 @@ class BasketItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.only(bottom: 20,right: 44,left: 44),
       child: Container(
         height: 239,
         decoration:  BoxDecoration(
@@ -274,3 +282,32 @@ class CustomAppbar extends StatelessWidget {
     );
   }
 }
+
+/*
+CustomScrollView(
+          slivers: [
+            const SliverToBoxAdapter(
+              child: CustomAppbar(),
+
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 44),
+              sliver: SliverList(
+                
+               delegate: SliverChildBuilderDelegate(
+                
+                (context, index) {
+                  
+                  return const BasketItem();
+                },
+                childCount: 3
+                
+               ),
+              ),
+            ),
+            const SliverToBoxAdapter(
+              child:CompleteButton(),
+            )
+          ],
+        ),
+ */
