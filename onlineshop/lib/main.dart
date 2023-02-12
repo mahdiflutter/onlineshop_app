@@ -1,14 +1,17 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:onlineshop/constants/maincolor_constant.dart';
+import 'package:onlineshop/di/di.dart';
 import 'package:onlineshop/screens/category_screen.dart';
 import 'package:onlineshop/screens/home_screen.dart';
 import 'package:onlineshop/screens/profile_screen.dart';
 import 'package:onlineshop/screens/userbasket_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  await initGetIt();
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -20,29 +23,26 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int selectedScreen = 3;
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'SB'
-      ),
+      theme: ThemeData(fontFamily: 'SB'),
       home: Scaffold(
-      
         body: IndexedStack(
           index: selectedScreen,
           children: getScreen(),
         ),
         bottomNavigationBar: ClipRRect(
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 30,sigmaY: 30),
+            filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
             child: BottomNavigationBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
               currentIndex: selectedScreen,
               onTap: (value) {
                 setState(() {
-                  selectedScreen=value;
+                  selectedScreen = value;
                 });
               },
               unselectedLabelStyle: const TextStyle(
@@ -67,7 +67,6 @@ class _MyAppState extends State<MyApp> {
               unselectedItemColor: MainColors.mainGray,
               showUnselectedLabels: true,
               type: BottomNavigationBarType.fixed,
-          
               items: const [
                 BottomNavigationBarItem(
                     label: 'حساب کاربری',
@@ -92,7 +91,8 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-  List<Widget> getScreen(){
+
+  List<Widget> getScreen() {
     return <Widget>[
       const ProfileScreen(),
       const UserBasketScreen(),
