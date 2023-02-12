@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onlineshop/constants/maincolor_constant.dart';
+import 'package:onlineshop/data/repository/authentication_remote_repository.dart';
+import 'package:onlineshop/di/di.dart';
 import 'package:onlineshop/widgets/bannerslider_widget.dart';
 import 'package:onlineshop/widgets/categoryitem_widget.dart';
 import 'package:onlineshop/widgets/productcart_widget.dart';
@@ -19,6 +21,24 @@ class _HomeScreennState extends State<HomeScreenn> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
+            SliverToBoxAdapter(
+              child: ElevatedButton(
+                onPressed: () async {
+                  final IAuthenticationRepository authen = locator.get();
+                  var response = await authen.login(
+                      'mahdiflutter011dsdsd0', '123456789');
+                  response.fold(
+                    (exceptionMessage) {
+                      print(exceptionMessage);
+                    },
+                    (successMessag) {
+                      print(successMessag);
+                    },
+                  );
+                },
+                child: const Text('Authentication'),
+              ),
+            ),
             //app bar
             const SliverToBoxAdapter(
               child: CustomAppbar(),
