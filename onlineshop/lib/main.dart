@@ -1,13 +1,14 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:onlineshop/constants/maincolor_constant.dart';
-import 'package:onlineshop/di/di.dart';
+import 'package:onlineshop/locator/globallocator.dart';
 import 'package:onlineshop/screens/category_screen.dart';
 import 'package:onlineshop/screens/home_screen.dart';
 import 'package:onlineshop/screens/profile_screen.dart';
 import 'package:onlineshop/screens/userbasket_screen.dart';
 
-void main() async {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
   await initGetIt();
   runApp(
     const MyApp(),
