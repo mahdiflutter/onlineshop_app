@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:onlineshop/constants/maincolor_constant.dart';
-import 'package:onlineshop/locator/globallocator.dart';
-import 'package:onlineshop/screens/profile_screen.dart';
-import 'package:onlineshop/services/repositories/authentication_repository.dart';
 
 import 'package:onlineshop/widgets/bannerslider_widget.dart';
 import 'package:onlineshop/widgets/categoryitem_widget.dart';
 import 'package:onlineshop/widgets/productcart_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreenn extends StatefulWidget {
   const HomeScreenn({super.key});
@@ -24,55 +20,7 @@ class _HomeScreennState extends State<HomeScreenn> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(
-              child: ElevatedButton(
-                onPressed: () async {
-                  final IAuthenticationRepository authen = locator.get();
-                  var response = await authen.register(
-                    'mahdiflutter0921',
-                    '123456789',
-                    '123456789',
-                  );
-                  response.fold((errorMessage) {
-                    print(errorMessage);
-                  }, (successMessage) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProfileScreen(),
-                      ),
-                    );
-                  });
-                },
-                child: const Text('Authentication'),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: ElevatedButton(
-                onPressed: () async {
-                  final SharedPreferences shared = locator.get();
-                  print(
-                    shared.getString('token'),
-                  );
-                  /*final IAuthenticationRepository authen = locator.get();
-                  var response = await authen.login('mahdiflutter0921', '123456789');
-                  response.fold(
-                    (errorMessage) {
-                      print(errorMessage);
-                    },
-                    (successMessage) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProfileScreen(),
-                        ),
-                      );
-                    },
-                  );*/
-                },
-                child: const Text('Login to account'),
-              ),
-            ),
+            
             //app bar
             const SliverToBoxAdapter(
               child: CustomAppbar(),
