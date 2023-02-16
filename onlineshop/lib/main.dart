@@ -2,13 +2,16 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onlineshop/bloc/auth/login_bloc.dart';
+import 'package:onlineshop/bloc/category/category_bloc.dart';
+import 'package:onlineshop/bloc/home/home_bloc.dart';
 import 'package:onlineshop/constants/maincolor_constant.dart';
 import 'package:onlineshop/di/di.dart';
 import 'package:onlineshop/screens/category_screen.dart';
 import 'package:onlineshop/screens/home_screen.dart';
 import 'package:onlineshop/screens/login_screen.dart';
 import 'package:onlineshop/screens/userbasket_screen.dart';
-void main() async{
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initGetIt();
   runApp(
@@ -102,8 +105,15 @@ class _MyAppState extends State<MyApp> {
         child: const LoginScreen(),
       ),
       const UserBasketScreen(),
-      const CategoryScreen(),
-      const HomeScreenn(),
+      BlocProvider(
+        create: (context) => CategoryBloc(),
+        child: const CategoryScreen(),
+      ),
+      BlocProvider(
+        create: (context) => HomeBloc(),
+        child: const HomeScreen(),
+      ),
+      
     ];
   }
 }
