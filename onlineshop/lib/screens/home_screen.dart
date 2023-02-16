@@ -1,130 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:onlineshop/bloc/home/home_bloc.dart';
+import 'package:onlineshop/bloc/home/home_event.dart';
+import 'package:onlineshop/bloc/home/home_state.dart';
 import 'package:onlineshop/constants/maincolor_constant.dart';
+import 'package:onlineshop/data/repository/banners_repository.dart';
+import 'package:onlineshop/di/di.dart';
 
 import 'package:onlineshop/widgets/bannerslider_widget.dart';
 import 'package:onlineshop/widgets/categoryitem_widget.dart';
 import 'package:onlineshop/widgets/productcart_widget.dart';
 
-class HomeScreenn extends StatefulWidget {
-  const HomeScreenn({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomeScreenn> createState() => _HomeScreennState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreennState extends State<HomeScreenn> {
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    BlocProvider.of<HomeBloc>(context).add(HomeSendRequestEvent());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MainColors.mainBackGround,
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            
-            //app bar
-            const SliverToBoxAdapter(
-              child: CustomAppbar(),
-            ),
-            //slider
-            const SliverToBoxAdapter(
-              child: BannerSlider(),
-            ),
-            //none
-            const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 20,
-              ),
-            ),
-            //categorys
-            const SliverToBoxAdapter(child: CateGoryList()),
-            //none
-            const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 20,
-              ),
-            ),
-            //popular products
-            SliverToBoxAdapter(
-              child: SizedBox(
-                  height: 300,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 44),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Icon(
-                              Icons.chevron_left_rounded,
-                              color: MainColors.mainBlue,
-                              size: 30,
-                            ),
-                            Text(
-                              'مشاهده همه',
-                              style: TextStyle(
-                                color: MainColors.mainBlue,
-                                fontSize: 12,
-                              ),
-                            ),
-                            Spacer(),
-                            Text(
-                              'پر فروش ترین ها',
-                              style: TextStyle(
-                                color: MainColors.mainGray,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const ProductList(),
-                    ],
-                  )),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                  height: 300,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 44),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Icon(
-                              Icons.chevron_left_rounded,
-                              color: MainColors.mainBlue,
-                              size: 30,
-                            ),
-                            Text(
-                              'مشاهده همه',
-                              style: TextStyle(
-                                color: MainColors.mainBlue,
-                                fontSize: 12,
-                              ),
-                            ),
-                            Spacer(),
-                            Text(
-                              'پر بازدید ترین ها',
-                              style: TextStyle(
-                                color: MainColors.mainGray,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const ProductList(),
-                    ],
-                  )),
-            ),
-          ],
+        child: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            return CustomScrollView(
+              slivers: [
+                const SliverToBoxAdapter(
+                  child: CustomAppbar(),
+                ),
+                if (state is HomeLodingState) ...[
+                  const SliverToBoxAdapter(
+                    child: SpinKitRing(
+                      color: MainColors.mainBlue,
+                      size: 30.0,
+                      lineWidth: 3,
+                    ),
+                  )
+                ],
+                if (state is HomeResponseState) ...[
+                  SliverToBoxAdapter(
+                    child: BannerSlider(bannerList: state.response),
+                  ),
+                ]
+              ],
+            );
+          },
         ),
       ),
     );
