@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:onlineshop/data/remotedatasource/authentication_datasource.dart';
+import 'package:onlineshop/data/remotedatasource/banners_datasource.dart';
 import 'package:onlineshop/data/remotedatasource/category_datasource.dart';
 import 'package:onlineshop/data/repository/authentication_repository.dart';
+import 'package:onlineshop/data/repository/banners_repository.dart';
 import 'package:onlineshop/data/repository/category_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,11 +29,17 @@ Future<void> initGetIt() async {
   locator.registerFactory<ICategoryDatasource>(
     () => CategoryRemote(),
   );
+  locator.registerFactory<IBannersDataSource>(
+    () => BannerRemote(),
+  );
   //repository
   locator.registerFactory<IAuthenticationRepository>(
     () => AuthenticationRepository(),
   );
   locator.registerFactory<ICategoryRepository>(
     () => CategoryRepository(),
+  );
+  locator.registerFactory<IBannerRepositiry>(
+    () => BannerRepository(),
   );
 }
