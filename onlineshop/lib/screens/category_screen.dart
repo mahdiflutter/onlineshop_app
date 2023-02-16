@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onlineshop/bloc/category/caregory_state.dart';
+import 'package:onlineshop/bloc/category/category_bloc.dart';
+import 'package:onlineshop/bloc/category/category_event.dart';
 import 'package:onlineshop/constants/maincolor_constant.dart';
 import 'package:onlineshop/data/model/category_model.dart';
-import 'package:onlineshop/data/repository/category_repository.dart';
-import 'package:onlineshop/di/di.dart';
 import 'package:onlineshop/widgets/cachedimage_widget.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -15,37 +17,45 @@ class CategoryScreen extends StatefulWidget {
 class _CategoryScreenState extends State<CategoryScreen> {
   List<Category> _categoryList = [];
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    BlocProvider.of<CategoryBloc>(context).add(
+      CategoryGetEvent(),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MainColors.mainBackGround,
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(
-              child: ElevatedButton(
-                onPressed: () async {
-                  final ICategoryRepository _repository = locator.get();
-                  var response = await _repository.getCategory();
-                  response.fold(
-                    (l) {
-                      print(l);
-                    },
-                    (r) {
-                      setState(() {
-                        _categoryList = r;
-                      });
-                      print(_categoryList);
-                    },
-                  );
-                },
-                child: const Text('get category'),
-              ),
-            ),
             const SliverToBoxAdapter(
               child: CustomAppbar(),
             ),
-            CategoryList(
-              list: _categoryList,
+            BlocBuilder<CategoryBloc, CategoryState>(
+              builder: (context, state) {
+                if (state is CategoryLoadingState) {
+                  return const SliverToBoxAdapter(
+                    child: Text('Loading...'),
+                  );
+                }
+                if (state is CategoryResponseState) {
+                  
+                  return CategoryList(list: state.response);
+                }
+                if (state is CategoryErrorState) {
+                  
+                  return const SliverToBoxAdapter(
+                    child: Text('Network error'),
+                  );
+                }
+                return const SliverToBoxAdapter(
+                  child: Text('Uknown Error!'),
+                );
+              },
             )
           ],
         ),
