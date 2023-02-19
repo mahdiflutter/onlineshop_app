@@ -6,6 +6,6 @@ class CategoryLoadingState extends CategoryState {}
 class CategoryInitState extends CategoryState{}
 class CategoryErrorState extends CategoryState{}
 class CategoryResponseState extends CategoryState {
-  List<Category>? response;
+  List<CategoryModel>? response;
   CategoryResponseState(this.response);
 }
