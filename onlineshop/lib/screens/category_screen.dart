@@ -15,7 +15,7 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  List<Category> _categoryList = [];
+  List<CategoryModel> _categoryList = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -69,7 +69,7 @@ class CategoryList extends StatelessWidget {
     super.key,
     required this.list,
   });
-  List<Category>? list;
+  List<CategoryModel>? list;
 
   @override
   Widget build(BuildContext context) {
