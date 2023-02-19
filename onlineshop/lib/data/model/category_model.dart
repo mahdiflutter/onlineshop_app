@@ -1,4 +1,4 @@
-class Category {
+class CategoryModel {
   String? collectionId;
   String? id;
   String? thumbnail;
@@ -6,7 +6,7 @@ class Category {
   String? color;
   String? icon;
 
-  Category(
+  CategoryModel(
     this.collectionId,
     this.id,
     this.thumbnail,
@@ -15,14 +15,14 @@ class Category {
     this.icon,
   );
 
-  factory Category.fromMapJson(Map<String, dynamic> mapJson) {
-    return Category(
+  factory CategoryModel.fromMapJson(Map<String, dynamic> mapJson) {
+    return CategoryModel(
       mapJson['collectionId'],
       mapJson['id'],
       'http://startflutter.ir/api/files/${mapJson['collectionId']}/${mapJson['id']}/${mapJson['thumbnail']}',
       mapJson['title'],
       mapJson['color'],
-      mapJson['icon'],
+      'http://startflutter.ir/api/files/${mapJson['collectionId']}/${mapJson['id']}/${mapJson['icon']}',
     );
   }
 }
