@@ -111,9 +111,11 @@ class _MyAppState extends State<MyApp> {
       ),
       BlocProvider(
         create: (context) => HomeBloc(),
-        child: const HomeScreen(),
+        child: const Directionality(
+          textDirection: TextDirection.rtl,
+          child:  HomeScreen(),
+        ),
       ),
-      
     ];
   }
 }
