@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:onlineshop/constants/maincolor_constant.dart';
+import 'package:onlineshop/data/model/product_model.dart';
+import 'package:onlineshop/widgets/cachedimage_widget.dart';
 
 class ProductCart extends StatelessWidget {
-  const ProductCart({super.key});
+  ProductModel? product;
+  ProductCart({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +26,9 @@ class ProductCart extends StatelessWidget {
                   alignment: AlignmentDirectional.bottomCenter,
                   children: [
                     SizedBox(
-                      width: double.infinity,
-                      child: Image.network(
-                          'https://dkstatics-public.digikala.com/digikala-products/fa5961b7d2a4efb180d686f6f69dd45381a4d3dd_1649056488.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90'),
+                      width: 98,
+                      height: 98,
+                      child: CachedImage(imageUrl: product!.thumbnail!),
                     ),
                     const Positioned(
                       top: 5,
@@ -42,16 +45,16 @@ class ProductCart extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                             color: MainColors.mainRed,
-                            borderRadius: BorderRadius.circular(8)),
-                        child: const Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 4, vertical: 1),
                           child: Text(
-                            '%۳',
-                            style: TextStyle(
+                            '${product!.present!.round().toString()} %',
+                            style: const TextStyle(
                               color: Colors.white,
                               fontFamily: 'SM',
-                              fontSize: 16,
+                              fontSize: 13,
                             ),
                           ),
                         ),
@@ -64,19 +67,16 @@ class ProductCart extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
-                Spacer(),
+            Wrap(
+              children: [
                 Text(
-                  'آیفون ۱۳ پرومکس',
-                  style: TextStyle(
+                  '${product!.name}',
+                  maxLines: 1,
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(
                     fontFamily: 'SM',
                     fontSize: 14,
                   ),
-                ),
-                SizedBox(
-                  width: 10,
                 ),
               ],
             ),
@@ -108,10 +108,10 @@ class ProductCart extends StatelessWidget {
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Text(
-                          '۴۶٬۰۰۰٬۰۰۰',
-                          style: TextStyle(
+                          product!.price!.toString(),
+                          style: const TextStyle(
                             fontSize: 12,
                             color: Colors.white,
                             fontFamily: 'SM',
@@ -119,8 +119,8 @@ class ProductCart extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '۴۵٬۳۵۰٬۰۰۰',
-                          style: TextStyle(
+                          product!.realPrice!.toString(),
+                          style: const TextStyle(
                             fontSize: 16,
                             color: Colors.white,
                             fontFamily: 'SM',
