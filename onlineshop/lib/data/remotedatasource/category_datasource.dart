@@ -4,18 +4,18 @@ import 'package:onlineshop/di/di.dart';
 import 'package:onlineshop/utils/api_exception.dart';
 
 abstract class ICategoryDatasource {
-  Future<List<Category>> getCategory();
+  Future<List<CategoryModel>> getCategory();
 }
 
 class CategoryRemote implements ICategoryDatasource {
   final Dio _dio = locator.get();
   @override
-  Future<List<Category>> getCategory() async {
+  Future<List<CategoryModel>> getCategory() async {
     try {
       var response = await _dio.get('collections/category/records');
-      return response.data['items'].map<Category>(
+      return response.data['items'].map<CategoryModel>(
         (item) {
-         return Category.fromMapJson(item);
+         return CategoryModel.fromMapJson(item);
         },
       ).toList();
   
@@ -25,7 +25,6 @@ class CategoryRemote implements ICategoryDatasource {
         ex.response!.statusMessage,
       );
     } catch (ex) {
-      print(ex);
       throw ApiException(0, 'not found errorrrrrr');
     }
   }
