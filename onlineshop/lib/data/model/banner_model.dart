@@ -1,17 +1,17 @@
-class BannerAds {
+class BannerModel {
   String? id;
   String? collectionId;
   String? thumbnail;
   String? categoryId;
 
-  BannerAds(
+  BannerModel(
     this.id,
     this.collectionId,
     this.thumbnail,
     this.categoryId,
   );
-  factory BannerAds.fromMaoJson(Map<String, dynamic> jsonObject) {
-    return BannerAds(
+  factory BannerModel.fromMaoJson(Map<String, dynamic> jsonObject) {
+    return BannerModel(
       jsonObject['id'],
       jsonObject['collectionId'],
       'http://startflutter.ir/api/files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['thumbnail']}',
