@@ -4,18 +4,18 @@ import 'package:onlineshop/di/di.dart';
 import 'package:onlineshop/utils/api_exception.dart';
 
 abstract class IBannersDataSource {
-  Future<List<BannerAds>> getBanners();
+  Future<List<BannerModel>> getBanners();
 }
 
 class BannerRemote implements IBannersDataSource {
   final Dio _dio = locator.get();
   @override
-  Future<List<BannerAds>> getBanners() async {
+  Future<List<BannerModel>> getBanners() async {
     try {
       var response = await _dio.get('collections/banner/records');
-      return response.data['items'].map<BannerAds>(
+      return response.data['items'].map<BannerModel>(
         (item) {
-          return BannerAds.fromMaoJson(item);
+          return BannerModel.fromMaoJson(item);
         },
       ).toList();
     } on DioError catch (ex) {
