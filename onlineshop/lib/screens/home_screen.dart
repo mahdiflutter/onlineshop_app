@@ -5,9 +5,8 @@ import 'package:onlineshop/bloc/home/home_bloc.dart';
 import 'package:onlineshop/bloc/home/home_event.dart';
 import 'package:onlineshop/bloc/home/home_state.dart';
 import 'package:onlineshop/constants/maincolor_constant.dart';
-import 'package:onlineshop/data/repository/banners_repository.dart';
-import 'package:onlineshop/di/di.dart';
-
+import 'package:onlineshop/data/model/category_model.dart';
+import 'package:onlineshop/data/model/product_model.dart';
 import 'package:onlineshop/widgets/bannerslider_widget.dart';
 import 'package:onlineshop/widgets/categoryitem_widget.dart';
 import 'package:onlineshop/widgets/productcart_widget.dart';
@@ -48,10 +47,59 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 ],
                 if (state is HomeResponseState) ...[
-                  SliverToBoxAdapter(
-                    child: BannerSlider(bannerList: state.response),
+                  state.responseBanners.fold(
+                    (l) {
+                      return SliverToBoxAdapter(
+                        child: Text(l),
+                      );
+                    },
+                    (r) {
+                      return SliverToBoxAdapter(
+                        child: BannerSlider(bannerList: r),
+                      );
+                    },
                   ),
-                ]
+                  state.responseCategory.fold(
+                    (l) {
+                      return SliverToBoxAdapter(
+                        child: Text(l),
+                      );
+                    },
+                    (r) {
+                      return SliverToBoxAdapter(
+                        child: CateGoryList(categoryList: r),
+                      );
+                    },
+                  ),
+                  state.responseBestSellersProducts.fold(
+                    (l) {
+                      return SliverToBoxAdapter(
+                        child: Text(l),
+                      );
+                    },
+                    (r) {
+                      print(r.length);
+                      return BestSalerProductList(
+                        bestSalerProducts: r,
+                      );
+                    },
+                  ),
+                  state.responseHotestProducts.fold(
+                    (l) {
+                      return SliverToBoxAdapter(
+                        child: Text(l),
+                      );
+                    },
+                    (r) {
+                      print(r.length);
+                      return HotProductList(
+                        hotProducts: r,
+                      );
+                    },
+                  ),
+                ],
+                
+
               ],
             );
           },
@@ -61,21 +109,121 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class ProductList extends StatelessWidget {
-  const ProductList({
-    super.key,
-  });
+class BestSalerProductList extends StatelessWidget {
+  List<ProductModel>? bestSalerProducts;
+  BestSalerProductList({super.key, required this.bestSalerProducts});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 44),
+    return SliverToBoxAdapter(
       child: SizedBox(
-        height: 216,
-        child: ListView.builder(
-          itemCount: 10,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) => const ProductCart(),
+        height: 300,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 44),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Text(
+                    'پر فروش ترین ها',
+                    style: TextStyle(
+                      color: MainColors.mainGray,
+                      fontSize: 12,
+                    ),
+                  ),
+                  Spacer(),
+                  Text(
+                    'مشاهده همه',
+                    style: TextStyle(
+                      color: MainColors.mainBlue,
+                      fontSize: 12,
+                    ),
+                  ),
+                  Icon(
+                    Icons.chevron_right,
+                    color: MainColors.mainBlue,
+                    size: 30,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 44),
+              child: SizedBox(
+                height: 216,
+                child: ListView.builder(
+                  itemCount: bestSalerProducts!.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) =>
+                      ProductCart(product: bestSalerProducts![index]),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+class HotProductList extends StatelessWidget {
+  List<ProductModel>? hotProducts;
+  HotProductList({super.key, required this.hotProducts});
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: SizedBox(
+        height: 300,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 44),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Text(
+                    'پر بازدید ترین ها',
+                    style: TextStyle(
+                      color: MainColors.mainGray,
+                      fontSize: 12,
+                    ),
+                  ),
+                  Spacer(),
+                  Text(
+                    'مشاهده همه',
+                    style: TextStyle(
+                      color: MainColors.mainBlue,
+                      fontSize: 12,
+                    ),
+                  ),
+                  Icon(
+                    Icons.chevron_right,
+                    color: MainColors.mainBlue,
+                    size: 30,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 44),
+              child: SizedBox(
+                height: 216,
+                child: ListView.builder(
+                  itemCount: hotProducts!.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) =>
+                      ProductCart(product: hotProducts![index]),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -83,9 +231,11 @@ class ProductList extends StatelessWidget {
 }
 
 class CateGoryList extends StatelessWidget {
-  const CateGoryList({
+  CateGoryList({
     super.key,
+    this.categoryList,
   });
+  List<CategoryModel>? categoryList;
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +245,10 @@ class CateGoryList extends StatelessWidget {
           children: [
             const SizedBox(
               width: double.infinity,
+              height: 20,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: const [
                 Text(
                   'دسته بندی',
@@ -106,20 +257,21 @@ class CateGoryList extends StatelessWidget {
                     color: MainColors.mainGray,
                     fontSize: 12,
                   ),
-                  textDirection: TextDirection.rtl,
-                  textAlign: TextAlign.end,
+                  textAlign: TextAlign.start,
                 ),
               ],
             ),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
             SizedBox(
               height: 100,
               child: ListView.builder(
-                itemCount: 10,
+                itemCount: categoryList!.length,
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) => const CateGoryItem(),
+                itemBuilder: (context, index) => CateGoryItem(
+                  category: categoryList![index],
+                ),
               ),
             ),
           ],
@@ -148,11 +300,10 @@ class CustomAppbar extends StatelessWidget {
               width: 12,
             ),
             Icon(
-              Icons.apple,
-              color: MainColors.mainBlue,
+              Icons.search,
+              color: Colors.black,
               size: 30,
             ),
-            Spacer(),
             Text(
               'جستجوی محصولات',
               style: TextStyle(
@@ -160,12 +311,10 @@ class CustomAppbar extends StatelessWidget {
                 fontSize: 17,
               ),
             ),
-            SizedBox(
-              width: 10,
-            ),
+            Spacer(),
             Icon(
-              Icons.search,
-              color: Colors.black,
+              Icons.apple,
+              color: MainColors.mainBlue,
               size: 30,
             ),
             SizedBox(
