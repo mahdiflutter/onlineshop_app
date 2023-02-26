@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:onlineshop/constants/maincolor_constant.dart';
-import 'package:onlineshop/widgets/productcart_widget.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
