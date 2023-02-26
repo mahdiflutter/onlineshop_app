@@ -152,10 +152,14 @@ class BestSalerProductList extends StatelessWidget {
               child: SizedBox(
                 height: 216,
                 child: ListView.builder(
+                  
                   itemCount: bestSalerProducts!.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) =>
-                      ProductCart(product: bestSalerProducts![index]),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: ProductCart(product: bestSalerProducts![index]),
+                      ),
                 ),
               ),
             )
@@ -216,7 +220,10 @@ class HotProductList extends StatelessWidget {
                   itemCount: hotProducts!.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) =>
-                      ProductCart(product: hotProducts![index]),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: ProductCart(product: hotProducts![index]),
+                      ),
                 ),
               ),
             )
