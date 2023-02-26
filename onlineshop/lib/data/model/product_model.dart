@@ -1,5 +1,5 @@
 class ProductModel {
-  String? category;
+  String? categoryId;
   String? collectionId;
   String? collectionName;
   String? description;
@@ -13,7 +13,7 @@ class ProductModel {
   int? realPrice;
   num? present;
   ProductModel(
-    this.category,
+    this.categoryId,
     this.collectionId,
     this.collectionName,
     this.description,
