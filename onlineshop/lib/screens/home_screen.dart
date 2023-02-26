@@ -48,58 +48,54 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
                 if (state is HomeResponseState) ...[
                   state.responseBanners.fold(
-                    (l) {
+                    (bannersException) {
                       return SliverToBoxAdapter(
-                        child: Text(l),
+                        child: Text(bannersException),
                       );
                     },
-                    (r) {
+                    (bannersResponse) {
                       return SliverToBoxAdapter(
-                        child: BannerSlider(bannerList: r),
+                        child: BannerSlider(bannerList: bannersResponse),
                       );
                     },
                   ),
                   state.responseCategory.fold(
-                    (l) {
+                    (categoryException) {
                       return SliverToBoxAdapter(
-                        child: Text(l),
+                        child: Text(categoryException),
                       );
                     },
-                    (r) {
+                    (categoryResponse) {
                       return SliverToBoxAdapter(
-                        child: CateGoryList(categoryList: r),
+                        child: CateGoryList(categoryList: categoryResponse),
                       );
                     },
                   ),
                   state.responseBestSellersProducts.fold(
-                    (l) {
+                    (bestSalerProductsException) {
                       return SliverToBoxAdapter(
-                        child: Text(l),
+                        child: Text(bestSalerProductsException),
                       );
                     },
-                    (r) {
-                      print(r.length);
+                    (bestSalerProductsResponse) {
                       return BestSalerProductList(
-                        bestSalerProducts: r,
+                        bestSalerProducts: bestSalerProductsResponse,
                       );
                     },
                   ),
                   state.responseHotestProducts.fold(
-                    (l) {
+                    (hotestProductsException) {
                       return SliverToBoxAdapter(
-                        child: Text(l),
+                        child: Text(hotestProductsException),
                       );
                     },
-                    (r) {
-                      print(r.length);
+                    (hotestProductsResponse) {
                       return HotProductList(
-                        hotProducts: r,
+                        hotProducts: hotestProductsResponse,
                       );
                     },
                   ),
                 ],
-                
-
               ],
             );
           },
@@ -110,8 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class BestSalerProductList extends StatelessWidget {
-  List<ProductModel>? bestSalerProducts;
-  BestSalerProductList({super.key, required this.bestSalerProducts});
+  final List<ProductModel>? bestSalerProducts;
+  const BestSalerProductList({super.key, required this.bestSalerProducts});
 
   @override
   Widget build(BuildContext context) {
@@ -169,9 +165,10 @@ class BestSalerProductList extends StatelessWidget {
     );
   }
 }
+
 class HotProductList extends StatelessWidget {
-  List<ProductModel>? hotProducts;
-  HotProductList({super.key, required this.hotProducts});
+  final List<ProductModel>? hotProducts;
+  const HotProductList({super.key, required this.hotProducts});
 
   @override
   Widget build(BuildContext context) {
@@ -231,11 +228,11 @@ class HotProductList extends StatelessWidget {
 }
 
 class CateGoryList extends StatelessWidget {
-  CateGoryList({
+  const CateGoryList({
     super.key,
     this.categoryList,
   });
-  List<CategoryModel>? categoryList;
+  final List<CategoryModel>? categoryList;
 
   @override
   Widget build(BuildContext context) {
