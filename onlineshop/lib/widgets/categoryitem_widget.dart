@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:onlineshop/constants/maincolor_constant.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onlineshop/bloc/productbycategory/productbycategory_bloc.dart';
 import 'package:onlineshop/data/model/category_model.dart';
 import 'package:onlineshop/screens/products_screen.dart';
 import 'package:onlineshop/widgets/cachedimage_widget.dart';
 
 class CateGoryItem extends StatelessWidget {
-  CateGoryItem({super.key, required this.category});
-  CategoryModel? category;
+  const CateGoryItem({super.key, required this.category});
+  final CategoryModel? category;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,10 @@ class CateGoryItem extends StatelessWidget {
     int hexColor = int.parse(categoryColor, radix: 16);
     return InkWell(
       onTap:(){
-        Navigator.push(context,MaterialPageRoute(builder:(context) => ProductsScreen(),));
+        Navigator.push(context,MaterialPageRoute(builder:(context) => BlocProvider(
+          create: (context) => ProductByCategoryBloc(),
+          child: ProductsScreen(categoryId: category!.id!,categoryTitle: category!.title!),
+        ),));
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 8),
