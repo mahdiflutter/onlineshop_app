@@ -3,11 +3,13 @@ import 'package:get_it/get_it.dart';
 import 'package:onlineshop/data/remotedatasource/authentication_datasource.dart';
 import 'package:onlineshop/data/remotedatasource/banners_datasource.dart';
 import 'package:onlineshop/data/remotedatasource/category_datasource.dart';
+import 'package:onlineshop/data/remotedatasource/productbycategory_datasource.dart';
 import 'package:onlineshop/data/remotedatasource/products_datasource.dart';
 import 'package:onlineshop/data/remotedatasource/products_gallery_datasource.dart';
 import 'package:onlineshop/data/repository/authentication_repository.dart';
 import 'package:onlineshop/data/repository/banners_repository.dart';
 import 'package:onlineshop/data/repository/category_repository.dart';
+import 'package:onlineshop/data/repository/productbycategory_repository.dart';
 import 'package:onlineshop/data/repository/products_gallery_repository.dart';
 import 'package:onlineshop/data/repository/products_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,6 +44,9 @@ Future<void> initGetIt() async {
   locator.registerFactory<IProductGalleryDatasource>(
     () => ProductGalleryRemote(),
   );
+  locator.registerFactory<IProductsByCategoryDataSource>(
+    () => ProductsByCategoryRemote(),
+  );
 
   //repository
   locator.registerFactory<IAuthenticationRepository>(
@@ -59,4 +64,5 @@ Future<void> initGetIt() async {
   locator.registerFactory<IProductGalleryRepository>(
     () => ProductGalleryRepository(),
   );
+  locator.registerFactory<IProductByCategoryRepository>(() => ProductByCategoryRepository());
 }
