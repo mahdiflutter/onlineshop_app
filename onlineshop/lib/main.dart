@@ -113,9 +113,9 @@ class _MyAppState extends State<MyApp> {
         create: (context) => HomeBloc(),
         child: const Directionality(
           textDirection: TextDirection.rtl,
-          child:  HomeScreen(),
+          child: HomeScreen(),
         ),
-      ),
+      )
     ];
   }
 }
